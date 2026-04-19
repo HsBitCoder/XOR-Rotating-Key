@@ -1,0 +1,67 @@
+import base64
+
+def xor_encrypt_decrypt(text, key):
+    result = ""
+
+    for i in range(len(text)):
+        key_char = key[i % len(key)]
+        result += chr(ord(text[i]) ^ ord(key_char))
+
+    return result
+
+
+def encrypt():
+    text = input("Enter text to encrypt: ")
+    key = input("Enter key: ")
+
+    encrypted = xor_encrypt_decrypt(text, key)
+
+    # Encode to base64 so it's readable
+    encoded = base64.b64encode(encrypted.encode()).decode()
+
+    print("\nEncrypted (base64):")
+    print(encoded)
+
+
+def decrypt():
+    encoded = input("Enter encrypted text (base64): ")
+    key = input("Enter key: ")
+
+    try:
+        # Decode base64 first
+        encrypted = base64.b64decode(encoded).decode()
+
+        decrypted = xor_encrypt_decrypt(encrypted, key)
+
+        print("\nDecrypted text:")
+        print(decrypted)
+
+    except:
+        print("Error: invalid input or key")
+
+
+def main():
+    while True:
+        print("\nRotating XOR Encryption Tool")
+        print("1. Encrypt")
+        print("2. Decrypt")
+        print("3. Exit")
+
+        choice = input("Choose (1/2/3): ")
+
+        if choice == "1":
+            encrypt()
+
+        elif choice == "2":
+            decrypt()
+
+        elif choice == "3":
+            print("Goodbye!")
+            break
+
+        else:
+            print("Invalid choice")
+
+
+if __name__ == "__main__":
+    main()
